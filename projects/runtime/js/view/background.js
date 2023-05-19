@@ -29,7 +29,7 @@ var background = function (window) {
         // ANIMATION VARIABLES HERE //////////////////////////////////////
         //////////////////////////////////////////////////////////////////
         // TODO (several):
-        var tree;
+        var plane;
         var buildings = [];
       
       
@@ -41,30 +41,48 @@ var background = function (window) {
             // TODO 1:
             // this currently fills the background with an obnoxious yellow;
             // you should modify both the height and color to suit your game
-            var cityScreen = draw.rect(canvasWidth,groundY,'yellow');
+            var cityScreen = draw.rect(canvasWidth,groundY,'#081763');
             background.addChild(cityScreen);
-            var bottomFill = draw.rect(canvasWidth, groundY, "#263245");
+            var bottomFill = draw.rect(canvasWidth, groundY, "#262626");
             bottomFill.y = canvasHeight - groundY;
             background.addChild(bottomFill);
 
             var bottomFillDetails = draw.rect(canvasWidth/2-400, groundY, "black");
-            bottomFillDetails.y = canvasHeight - groundY + 150bbvfvfbfvbgadsfdshb;
+            bottomFillDetails.y = canvasHeight - groundY + 150;
             background.addChild(bottomFillDetails);
 
             
 
             // TODO 2: - Add a moon and starfield
-            var city = draw.bitmap("img/imgs.png");
-            city.x = 0;
-            city.y = 0;
-            city.scaleX = 3.7;
-            city.scaleY = 2.5;
-            background.addChild(city);
+            for (var i = 0; i < 200; i++){
+            var circle = draw.circle(3, "white", "LightGray", 2);
+            circle.x = canvasWidth * Math.random();
+            circle.y = groundY * Math.random();
+            background.addChild(circle);
+
+            var moon = draw.bitmap("img/moon.png");
+            moon.x = 200;
+            moon.y = 1;
+            moon.scaleX = .4;
+            moon.scaleY = .4;
+            background.addChild(moon);
+            
+            
+            }
             
             // TODO 4: Part 1 - Add buildings!     Q: This is before TODO 4 for a reason! Why?
-            for (var i = 0; i < 5; ++i) {
-                var buildingHeight = 300;
-                var building = draw.rect(75, buildingHeight, "LightGray", "Black", 1);
+            for (var i = 0; i < 15; ++i) {
+                var buildingHeight = Math.random() * 250;
+                var building = draw.rect(75, buildingHeight, "DarkGray", "Black", 1);
+                building.x = 200 * i;
+                building.y = groundY - buildingHeight;
+                background.addChild(building);
+                buildings.push(building);
+              }
+
+              for (var i = 0; i < 15; ++i) {
+                var buildingHeight = Math.random() * 250;
+                var building = draw.rect(100, buildingHeight, "LightGray", "Black", 1);
                 building.x = 200 * i;
                 building.y = groundY - buildingHeight;
                 background.addChild(building);
@@ -72,10 +90,10 @@ var background = function (window) {
               }
             
             // TODO 3: Part 1 - Add a tree
-            tree = draw.bitmap("img/tree.png");
-            tree.x = 500;
-            tree.y = 50;
-            background.addChild(tree);
+            plane = draw.bitmap("img/plane.png");
+            plane.x = 1270;
+            plane.y = 0.9;
+            background.addChild(plane);
             
         } // end of render function - DO NOT DELETE
         
@@ -89,9 +107,20 @@ var background = function (window) {
             var groundY = ground.y;
             
             // TODO 3: Part 2 - Move the tree!
-            
+            plane.x = plane.x - 10;
+            if (plane.x < -20000){
+                plane.x = canvasWidth;
+            }
             
             // TODO 4: Part 2 - Parallax
+            for (var i = 0; i < buildings.length; i++){
+                var eachElement = buildings[i];
+
+                eachElement.x = eachElement.x - 6;
+                if (eachElement.x < -200){
+                    eachElement.x = canvasWidth;
+                }
+            }
             
 
         } // end of update function - DO NOT DELETE
